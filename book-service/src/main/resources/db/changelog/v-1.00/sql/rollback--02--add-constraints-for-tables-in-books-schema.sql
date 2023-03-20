@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS books.books DROP CONSTRAINT IF EXISTS books_fk_author;
+ALTER TABLE IF EXISTS books.books DROP CONSTRAINT IF EXISTS books_uk_author_name;

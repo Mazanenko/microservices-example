@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-03-13--03--add-constraints-for-tables-in-books-schema
+      author: mazanenko@inbox.ru
+      comment: добавляет констрэйнты таблицам в схеме books
+      preConditions:
+        - tableExists:
+            schemaName: books
+            tableName: books
+        - tableExists:
+            schemaName: books
+            tableName: authors
+
+      changes:
+        - tagDatabase:
+            tag: v-1.00.03
+        - sqlFile:
+            path: db/changelog/v-1.00/sql/02--add-constraints-for-tables-in-books-schema.sql
+
+      rollback:
+        - sqlFile:
+            path: db/changelog/v-1.00/sql/rollback--02--add-constraints-for-tables-in-books-schema.sql

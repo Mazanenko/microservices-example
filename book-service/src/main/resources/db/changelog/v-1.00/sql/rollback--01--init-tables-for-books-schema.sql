@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS books.books CASCADE;
+DROP TABLE IF EXISTS books.authors CASCADE;

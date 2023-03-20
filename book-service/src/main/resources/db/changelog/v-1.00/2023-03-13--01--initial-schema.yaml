@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-03-13--01--initial-schema
+      author: mazanenko@inbox.ru
+      changes:
+        - tagDatabase:
+            tag: v-1.00.01
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS books;
+
+      rollback:
+        - sql:
+            sql: DROP SCHEMA IF EXISTS books CASCADE;

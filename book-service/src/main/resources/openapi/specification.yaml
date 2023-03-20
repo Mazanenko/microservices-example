@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Bookstore API
+  version: 1.0.0
+  description: API for managing books and authors in a bookstore
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/v1/books:
+    get:
+      tags:
+        - BookController
+      summary: Get all books
+      operationId: getBooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookDto'
+    post:
+      tags:
+        - BookController
+      summary: Create a book
+      operationId: createBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInputDto'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+
+  /api/v1/books/{id}:
+    get:
+      tags:
+        - BookController
+      summary: Get book by id
+      operationId: getBook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+    put:
+      tags:
+        - BookController
+      summary: Put a book
+      operationId: putBook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInputDto'
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+    delete:
+      tags:
+        - BookController
+      summary: Delete a book
+      operationId: deleteBook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '204':
+          description: Deleted
+
+  /api/v1/authors:
+    get:
+      tags:
+        - AuthorController
+      summary: Get all authors
+      operationId: getAuthors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthorDto'
+    post:
+      tags:
+        - AuthorController
+      summary: Create an author
+      operationId: createAuthor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInputDto'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+
+
+  /api/v1/authors/{id}:
+    get:
+      tags:
+        - AuthorController
+      summary: Get author by id
+      operationId: getAuthor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: author id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+    put:
+      tags:
+        - AuthorController
+      summary: Put an author
+      operationId: putAuthor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: author id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInputDto'
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+    delete:
+      tags:
+        - AuthorController
+      summary: Delete an author
+      operationId: deleteAuthor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: author id
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '204':
+          description: Deleted
+
+components:
+  schemas:
+    id:
+      type: integer
+      format: int64
+      minimum: 1
+
+    BookDto:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        author:
+          $ref: '#/components/schemas/AuthorDtoAttached'
+      allOf:
+        - $ref: '#/components/schemas/BookBaseDto'
+
+
+
+    BookInputDto:
+      type: object
+      required:
+        - name
+        - genre
+        - price
+        - author
+      properties:
+        author:
+          $ref: '#/components/schemas/AuthorDtoAttached'
+      allOf:
+        - $ref: '#/components/schemas/BookBaseDto'
+
+    BookDtoAttached:
+      type: object
+      readOnly: true
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+      allOf:
+        - $ref: '#/components/schemas/BookBaseDto'
+
+    BookBaseDto:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-12-03T10:15:30'
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          example: '2022-12-03T10:15:30'
+          readOnly: true
+        name:
+          type: string
+        genre:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+
+    AuthorDto:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        created_at:
+          type: string
+          format: offset-date-time
+          example: '2022-12-03T10:15:30'
+          readOnly: true
+        modified_at:
+          type: string
+          format: offset-date-time
+          example: '2022-12-03T10:15:30'
+          readOnly: true
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookDtoAttached'
+      allOf:
+        - $ref: '#/components/schemas/AuthorBaseDto'
+
+    AuthorInputDto:
+      type: object
+      required:
+        - first_name
+        - middle_name
+        - last_name
+      allOf:
+        - $ref: '#/components/schemas/AuthorBaseDto'
+
+    AuthorBaseDto:
+      type: object
+      properties:
+        first_name:
+          type: string
+        middle_name:
+          type: string
+        last_name:
+          type: string
+
+    AuthorDtoAttached:
+      type: object
+      readOnly: true
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+      allOf:
+        - $ref: '#/components/schemas/AuthorBaseDto'
+

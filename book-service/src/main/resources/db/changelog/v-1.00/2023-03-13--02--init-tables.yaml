@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-03-13--02--init-tables-for-books-schema
+      author: mazanenko@inbox.ru
+      comment: добавляет таблицы в схему books
+      changes:
+        - tagDatabase:
+            tag: v-1.00.02
+        - sqlFile: #https://docs.liquibase.com/change-types/sql-file.html
+            path: db/changelog/v-1.00/sql/01--init-tables-for-books-schema.sql
+
+      rollback:
+        - sqlFile:
+            path: db/changelog/v-1.00/sql/rollback--01--init-tables-for-books-schema.sql
